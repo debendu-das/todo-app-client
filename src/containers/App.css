@@ -1,4 +1,8 @@
 .App {
-  text-align: center;
+  display: block;
+  width: 100vw;
+  overflow: hidden;
+  min-height: 100vh;
+  background-color: #120321;
+  color: aliceblue;
 }
-
