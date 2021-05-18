@@ -1,16 +1,16 @@
-import React from 'react';
+import React from 'react'
 
-import { makeStyles } from '@material-ui/core/styles';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import { Tooltip, Typography } from '@material-ui/core';
-import { DeleteTwoTone, EditTwoTone } from '@material-ui/icons';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Checkbox from '@material-ui/core/Checkbox';
+import { makeStyles } from '@material-ui/core/styles'
+import ListItemText from '@material-ui/core/ListItemText'
+import IconButton from '@material-ui/core/IconButton'
+import { Tooltip, Typography } from '@material-ui/core'
+import { DeleteTwoTone, EditTwoTone } from '@material-ui/icons'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import Checkbox from '@material-ui/core/Checkbox'
 import {
   CheckCircleOutlineTwoTone,
   CheckCircleTwoTone,
-} from '@material-ui/icons';
+} from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
   checkbox: {
@@ -19,10 +19,10 @@ const useStyles = makeStyles((theme) => ({
   text: {
     wordBreak: 'break-word',
   },
-}));
+}))
 
 const ToDoRow = (props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <>
@@ -54,7 +54,11 @@ const ToDoRow = (props) => {
             }}
           >
             <b>{props.item.title}</b>
-            <Typography noWrap type="caption" color="textSecondary">
+            <Typography
+              className={classes.text}
+              type="caption"
+              color="textSecondary"
+            >
               {props.item.details}
             </Typography>
           </Typography>
@@ -82,7 +86,7 @@ const ToDoRow = (props) => {
         </IconButton>
       </ListItemIcon>
     </>
-  );
-};
+  )
+}
 
-export default ToDoRow;
+export default ToDoRow

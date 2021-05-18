@@ -1,15 +1,15 @@
-import React from 'react';
+import React from 'react'
 
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import { makeStyles } from '@material-ui/core/styles'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
 
-import ToDoRow from './ToDoRow/toDoRow';
+import ToDoRow from './ToDoRow/toDoRow'
 
-import ToDoFormEditList from './../../ToDoForm/toDoFormEditList';
-import ToDoFormEditTab from './../../ToDoForm/toDoFormEditTab';
-import ToDoFromAddList from '../../ToDoForm/toDoFromAddList';
-import OptionButton from './OptionButton/optionButton';
+import ToDoFormEditList from './../../ToDoForm/toDoFormEditList'
+import ToDoFormEditTab from './../../ToDoForm/toDoFormEditTab'
+import ToDoFromAddList from '../../ToDoForm/toDoFromAddList'
+import OptionButton from './OptionButton/optionButton'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,10 +19,10 @@ const useStyles = makeStyles((theme) => ({
   ListItem: {
     width: '100%',
   },
-}));
+}))
 
 const ToDoList = (props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <List className={classes.root}>
@@ -44,7 +44,7 @@ const ToDoList = (props) => {
         />
       )}
       {props.list.map((item, index) => {
-        const currentlyEditing = props.editId === index;
+        const currentlyEditing = props.editId === index
 
         return (
           <ListItem key={index} button className={classes.ListItem} divider>
@@ -68,16 +68,17 @@ const ToDoList = (props) => {
               />
             )}
           </ListItem>
-        );
+        )
       })}
       <OptionButton
         tabIndex={props.tabIndex}
         handleEditTabIndex={props.handleEditTabIndex}
         handleClearAllCompleted={props.handleClearAllCompleted}
         handleDeleteTab={props.handleDeleteTab}
+        handleSaveOnline={props.handleSaveOnline}
       />
     </List>
-  );
-};
+  )
+}
 
-export default ToDoList;
+export default ToDoList

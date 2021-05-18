@@ -1,18 +1,24 @@
-import './App.css';
-import AppBar from '../components/Layout/AppBar/appbar';
-import Login from '../components/Layout/Login/login';
-import ToDoApp from '../components/ToDoApp/toDoApp';
-import { useState } from 'react';
-
+import './App.css'
+import AppBar from '../components/Layout/AppBar/appbar'
+import ToDoApp from '../components/ToDoApp/toDoApp'
+import Login from './../components/Layout/Login/login'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 const App = () => {
-  const [login] = useState(true);
-
   return (
     <div className="App">
-      <AppBar />
-      {login ? <ToDoApp /> : <Login />}
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
+            <ToDoApp />
+          </Route>
+        </Switch>
+        <AppBar />
+      </BrowserRouter>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

@@ -1,9 +1,9 @@
-import React from 'react';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
-import { IconButton, Tooltip, ListItem } from '@material-ui/core';
-import { AllInclusive } from '@material-ui/icons';
+import React from 'react'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import { makeStyles } from '@material-ui/core/styles'
+import { IconButton, Tooltip, ListItem } from '@material-ui/core'
+import { AllInclusive } from '@material-ui/icons'
 
 // import { ListItem } from '@material-ui/core';
 
@@ -17,20 +17,20 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     width: '100%',
   },
-}));
+}))
 
 const OptionButton = (props) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   return (
     <ListItem className={classes.OptionButton}>
@@ -55,35 +55,42 @@ const OptionButton = (props) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Save Online</MenuItem>
+        <MenuItem
+          onClick={() => {
+            props.handleSaveOnline()
+            handleClose()
+          }}
+        >
+          Save Online
+        </MenuItem>
 
         <MenuItem
           onClick={() => {
-            props.handleEditTabIndex(props.tabIndex);
-            handleClose();
+            props.handleEditTabIndex(props.tabIndex)
+            handleClose()
           }}
         >
           Edit Tab Title
         </MenuItem>
         <MenuItem
           onClick={() => {
-            handleClose();
-            props.handleDeleteTab(props.tabIndex);
+            handleClose()
+            props.handleDeleteTab(props.tabIndex)
           }}
         >
           Delete Tab
         </MenuItem>
         <MenuItem
           onClick={() => {
-            props.handleClearAllCompleted(props.tabIndex);
-            handleClose();
+            props.handleClearAllCompleted(props.tabIndex)
+            handleClose()
           }}
         >
           Clear All Completes
         </MenuItem>
       </Menu>
     </ListItem>
-  );
-};
+  )
+}
 
-export default OptionButton;
+export default OptionButton
