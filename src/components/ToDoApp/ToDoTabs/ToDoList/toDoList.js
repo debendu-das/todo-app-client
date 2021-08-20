@@ -1,11 +1,8 @@
 import React from 'react'
-
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-
 import ToDoRow from './ToDoRow/toDoRow'
-
 import ToDoFormEditList from './../../ToDoForm/toDoFormEditList'
 import ToDoFormEditTab from './../../ToDoForm/toDoFormEditTab'
 import ToDoFromAddList from '../../ToDoForm/toDoFromAddList'
@@ -26,6 +23,7 @@ const ToDoList = (props) => {
 
   return (
     <List className={classes.root}>
+      {/* Add New Task / Add New List Item Form */}
       {props.addNewList && (
         <ListItem className={classes.ListItem}>
           <ToDoFromAddList
@@ -35,26 +33,29 @@ const ToDoList = (props) => {
         </ListItem>
       )}
 
+      {/* Tab Editing Form */}
       {props.editTabId === props.tabIndex && (
         <ToDoFormEditTab
           tabIndex={props.tabIndex}
           tabTitle={props.tabTitle}
-          handleCancleEditTabIndex={props.handleCancleEditTabIndex}
+          handleCancelEditTabIndex={props.handleCancelEditTabIndex}
           handleEditTabSave={props.handleEditTabSave}
         />
       )}
+
+      {/* List Items */}
       {props.list.map((item, index) => {
         const currentlyEditing = props.editId === index
 
         return (
           <ListItem key={index} button className={classes.ListItem} divider>
-            {/* Form || Row */}
+            {/* Editing Form || List Item Row */}
             {currentlyEditing ? (
               <ToDoFormEditList
                 item={item}
                 tabIndex={props.tabIndex}
                 listIndex={index}
-                handleCancleIndex={props.handleCancleIndex}
+                handleCancelIndex={props.handleCancelIndex}
                 handleEditSave={props.handleEditSave}
               />
             ) : (
@@ -70,6 +71,8 @@ const ToDoList = (props) => {
           </ListItem>
         )
       })}
+
+      {/* Option Button */}
       <OptionButton
         tabIndex={props.tabIndex}
         handleEditTabIndex={props.handleEditTabIndex}

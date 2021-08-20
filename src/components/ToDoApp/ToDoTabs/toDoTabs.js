@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
+import {Grid, Box, Typography, Tab, Tabs, CircularProgress, Fab, Tooltip} from '@material-ui/core'
+import { Add, Close, ToggleOnRounded } from '@material-ui/icons'
 import ToDoList from './ToDoList/toDoList'
-import { Add, Close } from '@material-ui/icons'
 import ToDoFormAddTab from './../ToDoForm/toDoFormAddTab'
-import { CircularProgress, Fab, Tooltip } from '@material-ui/core'
-// import axios from 'axios'
-
 import AddIcon from '@material-ui/icons/Add'
-import { getTasks } from '../../../API'
-import { saveOnline } from './../../../API/index'
+import { getTasks, saveOnline } from './../../../API/index'
 import SnackbarMessage from '../../Layout/SnackbarMessage/snackbarMessage'
 
+// Tab Panel
 function TabPanel(props) {
   const { children, value, index, ...other } = props
 
@@ -84,32 +77,64 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+// ToDoTabs Function 
 const ToDoTabs = () => {
   const classes = useStyles()
 
-  const [data, setData] = useState([])
-  let [value, setValue] = useState(0)
+  // states
+  const [data, setData] = useState([]) // User Data 
 
-  const [editId, setEditId] = useState(null)
-  const [addNewList, setAddNewList] = useState(false)
+  /*  DEMO USER DATA
+  {
+    "_id": "sameIdRandom",
+    "userId": "userIdUnique",
+    "data": [{
+      "_id": "uniqueId",
+      "title": "General",
+      "list": [
+        {
+            "_id": "uniqueId",
+            "title": "Task 1",
+            "completed": false,
+            "details": "Not completed"
+        },
+        {
+            "_id": "uniqueId",
+            "title": "Task 2",
+            "completed": true,
+            "details": "Completed"
+        }
+      ]
+    }]
+  }
+  */
+ const [user, setUser] = useState('')                 // Current User
 
-  const [user, setUser] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [alert, setAlert] = useState({
+  let [value, setValue] = useState(0)                 // Tab Panel Value/Index
+  const [addNewList, setAddNewList] = useState(false) // New list item add form opener
+  
+  const [editId, setEditId] = useState(null)          // List Item edit id
+  const [editTabId, setEditTabId] = useState(null)    // Edit Tab Index id
+  
+  const [alert, setAlert] = useState({                // For Alert
     isAlert: false,
     type: '',
     message: '',
   })
-  const [editTabId, setEditTabId] = useState(null)
+  const [loading, setLoading] = useState(true)        // Loading Animation
 
+  // Save User Data in Local Storage
   useEffect(() => {
     localStorage.setItem('toDoData', JSON.stringify(data))
   }, [data])
 
   useEffect(() => {
+
+    // Fecting User Tasks Data
     getTasks()
       .then((res) => {
         res.data.data.length > 0 && setData(res.data.data)
+        // console.log(res.data)
         setLoading(false)
       })
       .catch((err) => {
@@ -128,6 +153,7 @@ const ToDoTabs = () => {
     )
   }, [])
 
+  // Snackbar Message Close Method
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
@@ -139,17 +165,22 @@ const ToDoTabs = () => {
     })
   }
 
+  // Tab Changing Method
   const handleTabChange = (event, newValue) => {
     setValue(newValue)
   }
 
+  // Editing List Index Changer
   const handleEditIndex = (index) => {
     setEditId(index)
   }
-  const handleCancleIndex = () => {
+
+  // Cancel Editing List Item
+  const handleCancelIndex = () => {
     setEditId(null)
   }
 
+  // Complete Task Marker
   const handleComplete = (tabIndex, index) => {
     let newData = [...data]
     newData[tabIndex].list[index].completed =
@@ -157,6 +188,7 @@ const ToDoTabs = () => {
     setData(newData)
   }
 
+  // Edited List Item Save
   const handleEditSave = (tabIndex, listIndex, formData) => {
     if (!formData.error) {
       const newData = [...data]
@@ -167,6 +199,7 @@ const ToDoTabs = () => {
     }
   }
 
+  // Add New Tab Method
   const handleAddTab = (formData) => {
     if (!formData.error) {
       const newData = [...data]
@@ -179,12 +212,17 @@ const ToDoTabs = () => {
     }
   }
 
+  // Edited List Item Save
   const handleEditTabIndex = (tabIndex) => {
     setEditTabId(tabIndex)
   }
-  const handleCancleEditTabIndex = () => {
+  
+  // Edited List Item Save
+  const handleCancelEditTabIndex = () => {
     setEditTabId(null)
   }
+  
+  // Edited List Item Save
   const handleEditTabSave = (tabIndex, formData) => {
     if (!formData.error) {
       const newData = [...data]
@@ -194,22 +232,26 @@ const ToDoTabs = () => {
     }
   }
 
+  // Delete List Item
   const handleDeleteIndex = (tabIndex, listIndex) => {
     const newData = [...data]
     newData[tabIndex].list.splice(listIndex, 1)
     setData(newData)
   }
 
+  // Delete Tab
   const handleDeleteTab = (tabIndex) => {
     const newData = [...data]
     newData.splice(tabIndex, 1)
     setData(newData)
   }
 
+  // Add List Item Form Toggler
   const handleAddListForm = () => {
     setAddNewList((state) => !state)
   }
 
+  // Save Edited List Item
   const handleAddListSave = (tabIndex, formData) => {
     if (!formData.error) {
       const newData = [...data]
@@ -224,6 +266,7 @@ const ToDoTabs = () => {
     }
   }
 
+  // Delete all completed task
   const handleClearAllCompleted = (tabIndex) => {
     const newData = [...data]
     const newList = newData[tabIndex].list.filter((listItem) => {
@@ -233,6 +276,7 @@ const ToDoTabs = () => {
     setData(newData)
   }
 
+  // Save Data in Database
   const handleSaveOnline = () => {
     const savedData = JSON.parse(localStorage.getItem('toDoData'))
     saveOnline(savedData)
@@ -256,6 +300,7 @@ const ToDoTabs = () => {
 
   return (
     <>
+      {/* Snackbar Message */}
       <SnackbarMessage
         open={alert.isAlert}
         handleClose={handleClose}
@@ -263,23 +308,27 @@ const ToDoTabs = () => {
         message={alert.message}
       />
 
+
       <Grid item sm={12} className={classes.title}>
         <Typography className={classes.wordBreak} variant="h4" align="center">
           {user.split(' ')[0]}'s Tasks
         </Typography>
       </Grid>
       <Grid item className={classes.root}>
+        
         {loading ? (
           <CircularProgress
-            style={{
-              fontSize: 100,
-              color: '#651fff',
-              marginTop: '10%',
-            }}
+          style={{
+            fontSize: 100,
+            color: '#651fff',
+            marginTop: '10%',
+          }}
           />
-        ) : (
-          <>
+          ) : (
+            <>
+            {/* Tabs */}
             <Grid item sm={12} className={classes.scrollbar}>
+              
               <Tabs
                 className={classes.tabs}
                 value={value}
@@ -295,6 +344,7 @@ const ToDoTabs = () => {
                     <Tab key={index} label={tab.title} />
                   ))}
 
+                {/* Add New Tab Button */}
                 <Tab
                   key={data.length}
                   label={
@@ -307,28 +357,70 @@ const ToDoTabs = () => {
             </Grid>
 
             <Grid items sm={12} className={classes.tabpanel}>
+
+              {/* Tab Panels contains list of data separeted by each tabs */}
+
+            {/* DEMO USER DATA
+                  {
+                    "_id": "sameIdRandom",
+                    "userId": "userIdUnique",
+                    "data": [{
+                      "_id": "uniqueId",
+                      "title": "General",
+                      "list": [
+                        {
+                            "_id": "uniqueId",
+                            "title": "Task 1",
+                            "completed": false,
+                            "details": "Not completed"
+                        },
+                        {
+                            "_id": "uniqueId",
+                            "title": "Task 2",
+                            "completed": true,
+                            "details": "Completed"
+                        }
+                      ]
+                    }]
+                  } 
+            */}
+  
+
               {data.map((tab, index) => (
                 <TabPanel value={value} index={index} key={index}>
+                  
                   <ToDoList
-                    list={tab.list}
-                    tabTitle={tab.title}
-                    tabIndex={index}
-                    editId={editId}
-                    editTabId={editTabId}
-                    handleComplete={handleComplete}
-                    handleEditSave={handleEditSave}
-                    handleCancleIndex={handleCancleIndex}
-                    handleEditIndex={handleEditIndex}
-                    addNewList={addNewList}
-                    handleAddListSave={handleAddListSave}
-                    handleDeleteIndex={handleDeleteIndex}
-                    handleClearAllCompleted={handleClearAllCompleted}
-                    handleEditTabIndex={handleEditTabIndex}
-                    handleCancleEditTabIndex={handleCancleEditTabIndex}
-                    handleEditTabSave={handleEditTabSave}
-                    handleDeleteTab={handleDeleteTab}
-                    handleSaveOnline={handleSaveOnline}
+                  // <--------- Tab Details -------------------------------------------------------------->
+                    list={tab.list}      // Tab List
+                    tabTitle={tab.title} // Tab Title (General / Shopping)
+                    tabIndex={index}     // Index of Tab (For General tabIndex == 0)
+                    
+                  // <--------- Tab Editing Methods Details ---------------------------------------------->
+
+                    editTabId={editTabId}                                 // Editing Tab Index
+                    handleEditTabIndex={handleEditTabIndex}               // Editing Tab Index changer
+                    handleCancelEditTabIndex={handleCancelEditTabIndex}   // Cancel Tab Edit
+                    handleEditTabSave={handleEditTabSave}                 // Edited Tab Save
+                    handleDeleteTab={handleDeleteTab}                     // Delete Tab
+                    
+                    // <--------- List Item Methods ----------------------------------------------------->
+                    handleComplete={handleComplete}         // Complete Task Marker
+
+                    addNewList={addNewList}                 // Add List Item Form Toggler
+                    handleAddListSave={handleAddListSave}   // Save Edited List Item
+
+                    handleDeleteIndex={handleDeleteIndex}   // Delete List Item
+
+                    editId={editId}                         // Edit List Item Index
+                    handleEditIndex={handleEditIndex}       // Edit List Item Index Changer
+                    handleCancelIndex={handleCancelIndex}   // Cancel Editing List Item
+                    handleEditSave={handleEditSave}         // Edited List Item Save
+
+                  // <--------- Other Methods ---------------------------------------------------------->
+                    handleClearAllCompleted={handleClearAllCompleted}     // Delete all completed task
+                    handleSaveOnline={handleSaveOnline}                   // Save Data in Database
                   />
+
                 </TabPanel>
               ))}
               <TabPanel value={value} index={data.length}>
@@ -338,6 +430,7 @@ const ToDoTabs = () => {
           </>
         )}
 
+      {/* Add Button */}
         {value !== data.length && (
           <Grid item container sm={12} className={classes.addIcon}>
             <Fab

@@ -1,12 +1,9 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import {Paper, Grid} from '@material-ui/core'
 import ToDoTabs from './ToDoTabs/toDoTabs'
-
 import decode from 'jwt-decode'
-import { useEffect } from 'react'
-import { useHistory } from 'react-router'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,9 +36,9 @@ const useStyles = makeStyles((theme) => ({
 const ToDoApp = () => {
   const classes = useStyles()
   const history = useHistory()
-  // const location = useLocation()
 
   useEffect(() => {
+    // Validating JWT token
     const token = JSON.parse(localStorage.getItem('user'))?.token
     if (token) {
       const decodedToken = decode(token)
@@ -56,13 +53,17 @@ const ToDoApp = () => {
       history.push('/login')
     }
   }, [history])
+
   return (
     <div className={classes.root}>
       <Grid className={classes.mainContent} container spacing={3}>
         <Paper className={classes.paper}>
           <Grid item sm={12} container className={classes.container}>
             <Grid item sm={12} container>
+
+              {/* ToDoTabs containes all the tab informations in the app */}
               <ToDoTabs />
+
             </Grid>
           </Grid>
         </Paper>

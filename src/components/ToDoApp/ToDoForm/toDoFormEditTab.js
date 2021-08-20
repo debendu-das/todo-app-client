@@ -67,10 +67,10 @@ const ToDoFromEditTab = (props) => {
             </Tooltip>
           </IconButton>
           <IconButton edge="end" aria-label="delete">
-            <Tooltip title="Cancle" placement="top">
+            <Tooltip title="Cancel" placement="top">
               <Close
                 color="secondary"
-                onClick={props.handleCancleEditTabIndex}
+                onClick={props.handleCancelEditTabIndex}
               />
             </Tooltip>
           </IconButton>

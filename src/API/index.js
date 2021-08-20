@@ -10,7 +10,6 @@ API.interceptors.request.use((req) => {
       JSON.parse(localStorage.getItem('user')).token
     }`
   }
-
   return req
 })
 

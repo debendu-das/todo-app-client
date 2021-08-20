@@ -81,8 +81,8 @@ const ToDoFormEditList = (props) => {
           </Tooltip>
         </IconButton>
         <IconButton edge="end" aria-label="delete">
-          <Tooltip title="Cancle" placement="top">
-            <Close color="secondary" onClick={props.handleCancleIndex} />
+          <Tooltip title="Cancel" placement="top">
+            <Close color="secondary" onClick={props.handleCancelIndex} />
           </Tooltip>
         </IconButton>
       </ListItemIcon>

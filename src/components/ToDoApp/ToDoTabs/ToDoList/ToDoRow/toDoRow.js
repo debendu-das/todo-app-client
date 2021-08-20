@@ -26,6 +26,7 @@ const ToDoRow = (props) => {
 
   return (
     <>
+    {/* Complete Toggler */}
       <ListItemIcon className={classes.checkbox}>
         <Tooltip title="Complete?" placement="top">
           <Checkbox
@@ -43,6 +44,8 @@ const ToDoRow = (props) => {
           />
         </Tooltip>
       </ListItemIcon>
+
+      {/* List Item Text === Actual Task */}
       <ListItemText
         disableTypography
         className={classes.text}
@@ -65,6 +68,7 @@ const ToDoRow = (props) => {
         }
       ></ListItemText>
 
+      {/* Edit and Delete Icon */}
       <ListItemIcon>
         <IconButton edge="end" aria-label="edit">
           <Tooltip title="Edit" placement="top">

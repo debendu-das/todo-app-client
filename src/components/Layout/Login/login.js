@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
-import { TextField, Button, CircularProgress } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import { Grid, Paper, TextField, Button, CircularProgress } from '@material-ui/core'
 import { AccountCircle } from '@material-ui/icons'
 import { logIn, signUp } from './../../../API/index'
-import { useHistory } from 'react-router'
 import decode from 'jwt-decode'
 import SnackbarMessage from '../SnackbarMessage/snackbarMessage'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,11 +54,13 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
 }))
+
 const Login = () => {
   const classes = useStyles()
   const history = useHistory()
 
   useEffect(() => {
+    // Validating JWT token
     const token = JSON.parse(localStorage.getItem('user'))?.token
     if (token) {
       const decodedToken = decode(token)
@@ -73,26 +73,35 @@ const Login = () => {
     }
   }, [history])
 
-  const [isLogin, setIsLogin] = useState(true)
-  const [loading, setLoading] = useState(false)
+  // State
+  const [isLogin, setIsLogin] = useState(true) // To Form switching
+  
+  // Login form data
   const [loginFormData, setLoginFormData] = useState({
     email: '',
     password: '',
   })
+
+  // Sign up form data
   const [signUpFormData, setSignUpFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   })
-
+  
+  // To store invalid inputs of form data elements to show error message
   const [errorFormData, setErrorFormData] = useState([])
-
+  
+  // Error handling state
   const [error, setError] = useState({
     isError: false,
     errorMessage: '',
   })
+  
+  const [loading, setLoading] = useState(false) // loading animation
 
+  // Snackbar message close
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
@@ -100,6 +109,7 @@ const Login = () => {
     setError({ isError: false, errorMessage: '' })
   }
 
+  // <--------- Login Form Methods --------->
   const handleLoginChange = (e) => {
     setLoginFormData((loginFormData) => ({
       ...loginFormData,
@@ -107,6 +117,7 @@ const Login = () => {
     }))
   }
 
+  // Form Validator
   const formValidator = (formData) => {
     const expressions = {
       name: /^[a-z]([-']?[a-z]+)*( [a-z]([-']?[a-z]+)*)+$/,
@@ -145,6 +156,7 @@ const Login = () => {
     }
   }
 
+  // <--------- Sign Up Form Methods --------->
   const handleSignUpChange = (e) => {
     setSignUpFormData((signUpFormData) => ({
       ...signUpFormData,
@@ -179,8 +191,11 @@ const Login = () => {
     return errorFormData.indexOf(key) !== -1
   }
 
+  
+  // Sign Up Form
   let signUpForm = (
     <form noValidate autoComplete="off">
+      {/* Name */}
       <TextField
         fullWidth
         className={classes.inputFileds}
@@ -192,6 +207,8 @@ const Login = () => {
         error={hasError('name')}
         helperText={hasError('name') && 'Name is required !'}
       />
+
+      {/* Email */}
       <TextField
         fullWidth
         className={classes.inputFileds}
@@ -204,6 +221,8 @@ const Login = () => {
         error={hasError('email')}
         helperText={hasError('email') && 'Invalid Email !'}
       />
+
+      {/* Password */}
       <TextField
         fullWidth
         className={classes.inputFileds}
@@ -219,6 +238,8 @@ const Login = () => {
           'Password needs minimum eight characters, and at least one number ! (Example: abcdefg8)'
         }
       />
+
+      {/* Confirm Password */}
       <TextField
         fullWidth
         className={classes.inputFileds}
@@ -234,6 +255,8 @@ const Login = () => {
           'Password needs minimum eight characters, and at least one number ! (Example: abcdefg8)'
         }
       />
+
+      {/* Submit Button */}
       <Button
         fullWidth
         className={classes.inputFileds}
@@ -243,6 +266,8 @@ const Login = () => {
       >
         Sign Up
       </Button>
+
+      {/* Switch Form Button */}
       <Button
         fullWidth
         className={classes.inputFileds}
@@ -255,8 +280,10 @@ const Login = () => {
     </form>
   )
 
+  // Login Form
   let loginForm = (
     <form autoComplete="off" onSubmit={handleLoginSubmit}>
+      {/* Email */}
       <TextField
         label="Email"
         variant="outlined"
@@ -268,6 +295,8 @@ const Login = () => {
         error={hasError('email')}
         helperText={hasError('email') && 'Invalid Email !'}
       />
+
+      {/* Password */}
       <TextField
         label="Password"
         type="password"
@@ -283,6 +312,8 @@ const Login = () => {
           'Password needs minimum eight characters, and at least one number ! (Example: abcdefg8)'
         }
       />
+
+      {/* Submit Button */}
       <Button
         fullWidth
         className={classes.inputFileds}
@@ -292,6 +323,8 @@ const Login = () => {
       >
         Login
       </Button>
+
+      {/* Switch Form Button */}
       <Button
         fullWidth
         className={classes.inputFileds}
@@ -306,15 +339,21 @@ const Login = () => {
 
   return (
     <div className={classes.root}>
+
+      {/* Snackbar Message */}
       <SnackbarMessage
         open={error.isError}
         handleClose={handleClose}
         severity="error"
         message={error.errorMessage}
       />
+
+      {/* Login/SignUp Page */}
       <Grid className={classes.mainContent} container spacing={3}>
         <Paper className={classes.paper}>
           <Grid item sm={12} container className={classes.container}>
+
+            {/* Logo */}
             <Grid item sm={12} className={classes.logo}>
               <AccountCircle
                 style={{
@@ -323,8 +362,13 @@ const Login = () => {
                 }}
               />
             </Grid>
+
+            {/* Login/SignUp Form */}
             <Grid item sm={12} container className={classes.form}>
+              {/* If isLogin is true then login form will show else sign up form */}
               {isLogin ? loginForm : signUpForm}
+
+              {/* After submit form loading animation */}
               {loading && (
                 <CircularProgress
                   style={{
