@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import {Grid, Box, Typography, Tab, Tabs, CircularProgress, Fab, Tooltip} from '@material-ui/core'
-import { Add, Close, ToggleOnRounded } from '@material-ui/icons'
+import { Grid, Box, Typography, Tab, Tabs, CircularProgress, Fab, Tooltip } from '@material-ui/core'
+import { Add, Close } from '@material-ui/icons'
 import ToDoList from './ToDoList/toDoList'
 import ToDoFormAddTab from './../ToDoForm/toDoFormAddTab'
 import AddIcon from '@material-ui/icons/Add'
@@ -108,14 +108,14 @@ const ToDoTabs = () => {
     }]
   }
   */
- const [user, setUser] = useState('')                 // Current User
+  const [user, setUser] = useState('')                 // Current User
 
   let [value, setValue] = useState(0)                 // Tab Panel Value/Index
   const [addNewList, setAddNewList] = useState(false) // New list item add form opener
-  
+
   const [editId, setEditId] = useState(null)          // List Item edit id
   const [editTabId, setEditTabId] = useState(null)    // Edit Tab Index id
-  
+
   const [alert, setAlert] = useState({                // For Alert
     isAlert: false,
     type: '',
@@ -216,12 +216,12 @@ const ToDoTabs = () => {
   const handleEditTabIndex = (tabIndex) => {
     setEditTabId(tabIndex)
   }
-  
+
   // Edited List Item Save
   const handleCancelEditTabIndex = () => {
     setEditTabId(null)
   }
-  
+
   // Edited List Item Save
   const handleEditTabSave = (tabIndex, formData) => {
     if (!formData.error) {
@@ -311,24 +311,24 @@ const ToDoTabs = () => {
 
       <Grid item sm={12} className={classes.title}>
         <Typography className={classes.wordBreak} variant="h4" align="center">
-          {user.split(' ')[0]}'s Tasks
+          {user?.split(' ')[0]}'s Tasks
         </Typography>
       </Grid>
       <Grid item className={classes.root}>
-        
+
         {loading ? (
           <CircularProgress
-          style={{
-            fontSize: 100,
-            color: '#651fff',
-            marginTop: '10%',
-          }}
+            style={{
+              fontSize: 100,
+              color: '#651fff',
+              marginTop: '10%',
+            }}
           />
-          ) : (
-            <>
+        ) : (
+          <>
             {/* Tabs */}
             <Grid item sm={12} className={classes.scrollbar}>
-              
+
               <Tabs
                 className={classes.tabs}
                 value={value}
@@ -360,7 +360,7 @@ const ToDoTabs = () => {
 
               {/* Tab Panels contains list of data separeted by each tabs */}
 
-            {/* DEMO USER DATA
+              {/* DEMO USER DATA
                   {
                     "_id": "sameIdRandom",
                     "userId": "userIdUnique",
@@ -384,25 +384,25 @@ const ToDoTabs = () => {
                     }]
                   } 
             */}
-  
+
 
               {data.map((tab, index) => (
                 <TabPanel value={value} index={index} key={index}>
-                  
+
                   <ToDoList
-                  // <--------- Tab Details -------------------------------------------------------------->
+                    // <--------- Tab Details -------------------------------------------------------------->
                     list={tab.list}      // Tab List
                     tabTitle={tab.title} // Tab Title (General / Shopping)
                     tabIndex={index}     // Index of Tab (For General tabIndex == 0)
-                    
-                  // <--------- Tab Editing Methods Details ---------------------------------------------->
+
+                    // <--------- Tab Editing Methods Details ---------------------------------------------->
 
                     editTabId={editTabId}                                 // Editing Tab Index
                     handleEditTabIndex={handleEditTabIndex}               // Editing Tab Index changer
                     handleCancelEditTabIndex={handleCancelEditTabIndex}   // Cancel Tab Edit
                     handleEditTabSave={handleEditTabSave}                 // Edited Tab Save
                     handleDeleteTab={handleDeleteTab}                     // Delete Tab
-                    
+
                     // <--------- List Item Methods ----------------------------------------------------->
                     handleComplete={handleComplete}         // Complete Task Marker
 
@@ -416,7 +416,7 @@ const ToDoTabs = () => {
                     handleCancelIndex={handleCancelIndex}   // Cancel Editing List Item
                     handleEditSave={handleEditSave}         // Edited List Item Save
 
-                  // <--------- Other Methods ---------------------------------------------------------->
+                    // <--------- Other Methods ---------------------------------------------------------->
                     handleClearAllCompleted={handleClearAllCompleted}     // Delete all completed task
                     handleSaveOnline={handleSaveOnline}                   // Save Data in Database
                   />
@@ -430,7 +430,7 @@ const ToDoTabs = () => {
           </>
         )}
 
-      {/* Add Button */}
+        {/* Add Button */}
         {value !== data.length && (
           <Grid item container sm={12} className={classes.addIcon}>
             <Fab

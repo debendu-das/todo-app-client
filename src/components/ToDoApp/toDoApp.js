@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import {Paper, Grid} from '@material-ui/core'
+import { Paper, Grid } from '@material-ui/core'
 import ToDoTabs from './ToDoTabs/toDoTabs'
 import decode from 'jwt-decode'
 import { makeStyles } from '@material-ui/core/styles'
@@ -60,10 +60,8 @@ const ToDoApp = () => {
         <Paper className={classes.paper}>
           <Grid item sm={12} container className={classes.container}>
             <Grid item sm={12} container>
-
               {/* ToDoTabs containes all the tab informations in the app */}
               <ToDoTabs />
-
             </Grid>
           </Grid>
         </Paper>
